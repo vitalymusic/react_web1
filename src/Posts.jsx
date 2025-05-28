@@ -29,22 +29,29 @@ function Posts() {
         return (
             <>
                 <h1>Ziņas</h1>
-                <p>ielādē...</p>
+                <p>Ielādē...</p>
             </>
         )
     } else {
         return (
             <>
                 <h1>Ziņas</h1>
-                {posts.map((post, i) => {
-                    return (
-                        <div className='post'>
-                            <h3>{post.title}</h3>
-                            <p>{post.body}</p>
-                            <button data-id={post.id}>Skatīt postu</button>
-                        </div>)
-                })
-                }
+                <table>
+                    <tr>
+                        <th>Post</th>
+                        <th>View post</th>
+                    </tr>
+                    {posts.map((post, i) => {
+                        return (
+                            <tr>
+                                <td>{post.title}</td>
+                                <td>
+                                    <button data-id={post.id}>Skatīt postu</button>
+                                </td>
+                            </tr>)
+                    })
+                    }
+                </table>
             </>
         )
     }
