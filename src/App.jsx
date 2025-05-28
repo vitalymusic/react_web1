@@ -4,7 +4,6 @@ import Kartiņa from './Kartiņa';
 import Posts from './Posts';
 
 
-
 import { useState } from "react";
 
 
