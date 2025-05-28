@@ -1,6 +1,8 @@
 import './App.css';
 import Virsraksts from './Virsraksts';
 import Kartiņa from './Kartiņa';
+import Posts from './Posts';
+
 
 
 import { useState } from "react";
@@ -75,14 +77,15 @@ function App() {
       }>Paslēpt</button> 
 
       <Virsraksts text={value}/>
-      
+
       <div className="cards" >
           {kartinas.map((item,i)=>{
             return(
               <Kartiņa nosaukums={item.nosaukums} apraksts={item.apraksts} attēls={item.attēls} fons={item.fons}/>)
           })}
       </div>
-
+      {/* Cards ends */}
+      <Posts />
     </div>
   );
 }else{
