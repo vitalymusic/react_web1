@@ -2,6 +2,10 @@ import './App.css';
 import Virsraksts from './Virsraksts';
 import Kartiņa from './Kartiņa';
 
+
+import { useState } from "react";
+
+
 function App() {
     const kartinas = [
   {
@@ -52,14 +56,27 @@ function App() {
   }
 ];
 
+  const [visible, setVisible] = useState(true);
+  const [value, setValue] = useState("");
 
 
+  const clickHandler = ()=>{setVisible(!visible)};
 
+  if(visible){
   return (
     <div className="App" id="app">
-      <Virsraksts />
-      <div className="cards">
+      <input type="text" onKeyUp={
+        (e)=>{
+          setValue(e.target.value)
+        }
+      } /><br />
+      <button onClick={
+        clickHandler
+      }>Paslēpt</button> 
 
+      <Virsraksts text={value}/>
+      
+      <div className="cards" >
           {kartinas.map((item,i)=>{
             return(
               <Kartiņa nosaukums={item.nosaukums} apraksts={item.apraksts} attēls={item.attēls} fons={item.fons}/>)
@@ -68,6 +85,16 @@ function App() {
 
     </div>
   );
+}else{
+  return(
+    <div className="App" id="app">
+       <button onClick={
+        clickHandler
+      }>Rādīt</button>  
+      <Virsraksts />
+    </div>
+  )
+}
 }
 
 export default App;
