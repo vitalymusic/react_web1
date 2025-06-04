@@ -36,7 +36,7 @@ function Posts() {
         return (
             <>
                 <h1>Ziņas</h1>
-                <table>
+                <table className='border-collapse border border-slate-400'>
                     <tr>
                         <th>Post</th>
                         <th>View post</th>
