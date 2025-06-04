@@ -1,13 +1,30 @@
 import './App.css';
+import Blogs from './pages/Blogs';
+import Contact from './pages/Contact';
+import Home from './pages/Home';
+import Layout from './pages/Layout';
+
+
+
 import Virsraksts from './Virsraksts';
 import Kartiņa from './Kartiņa';
 import Posts from './Posts';
+
+
+
 
 
 import { useState } from "react";
 
 
 function App() {
+
+
+
+
+
+
+
     const kartinas = [
   {
     nosaukums: "Kursi React",
