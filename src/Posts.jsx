@@ -18,7 +18,19 @@ function Posts() {
 
     const [posts, setPosts] = useState([]);
     const [postContent, setPostContent] = useState([]);
-    const [visiblePostDiv, setvisiblePostDiv] = useState(true);
+    const [visiblePostDiv, setvisiblePostDiv] = useState(false);
+
+    const [reload, setReload] = useState(false);
+
+    const closeModal = ()=>{
+        setvisiblePostDiv(false);
+    }
+
+    const doReload = ()=>{
+        setReload(!reload);
+    }
+
+
 
 
     const openPost = (e)=>{
@@ -33,7 +45,7 @@ function Posts() {
             setPosts(data);
         });
 
-    }, [])
+    }, [reload])
 
     if (!posts) {
         return (
@@ -46,6 +58,7 @@ function Posts() {
         return (
             <>
                 <h1>Ziņas</h1>
+                <button type="button" className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 disabled:opacity-50'>Pievienot jaunu ziņu</button>
                 <table className='border-collapse border border-slate-400'>
                     <thead>
                         <tr>
@@ -76,7 +89,7 @@ function Posts() {
                                     setvisiblePostDiv(false)
                                 }}>x</button>
                                 <h1>Ziņa</h1>
-                                <PostForm />
+                                <PostForm  closeModal={closeModal}  reload={doReload}/>
                             </div>
                         </div>
                    ):""

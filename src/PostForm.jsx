@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 
-export default function PostForm() {
+export default function PostForm(props) {
   const [formData, setFormData] = useState({
     post_title: '',
     post_content: ''
   });
+
+  
+
 
   const handleChange = (e) => {
     setFormData({ 
@@ -12,10 +15,32 @@ export default function PostForm() {
       [e.target.name]: e.target.value 
     });
   };
+  const savePosts = async ()=>{
+      let postFormData = new FormData();
+
+      postFormData.append("post_title",formData.post_title);
+      postFormData.append("post_content",formData.post_content);
+
+
+     let response = await fetch('http://localhost:8888/web1_api/public//posts/create',{
+        method: 'POST',
+        body: postFormData
+      });
+        let data = await response.json();
+        props.closeModal();
+        props.reload();
+  }
+
+
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData); // Šeit var pievienot savu apstrādes loģiku
+    savePosts();
+
+
   };
 
   return (
