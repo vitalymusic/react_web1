@@ -21,6 +21,13 @@ function Posts() {
     const [visiblePostDiv, setvisiblePostDiv] = useState(false);
 
     const [reload, setReload] = useState(false);
+    const [editFormData, setEditFormData] = useState([]);
+    const [formId, setFormID] = useState();
+
+
+
+
+
 
     const closeModal = ()=>{
         setvisiblePostDiv(false);
@@ -30,14 +37,26 @@ function Posts() {
         setReload(!reload);
     }
 
-
+       const createPost = ()=>{
+        setvisiblePostDiv(true);
+    }       
 
 
     const openPost = (e)=>{
         let id = e.target.dataset.id;
-        console.log(id);
+        setFormID(id);
+        loadFormData(formId);
 
+        editFormData &&
         setvisiblePostDiv(true);
+
+    }
+
+
+    const loadFormData = async (id)=>{
+        let response = await fetch(`http://localhost:8888/web1_api/public/posts/${id}`);
+        let data = await response.json();
+        setEditFormData(data);
     }
 
     useEffect(() => {
@@ -58,7 +77,8 @@ function Posts() {
         return (
             <>
                 <h1>Ziņas</h1>
-                <button type="button" className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 disabled:opacity-50'>Pievienot jaunu ziņu</button>
+                <button type="button" className='bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition duration-300 disabled:opacity-50' onClick={createPost}>
+                    Pievienot jaunu ziņu</button>
                 <table className='border-collapse border border-slate-400'>
                     <thead>
                         <tr>
@@ -89,7 +109,7 @@ function Posts() {
                                     setvisiblePostDiv(false)
                                 }}>x</button>
                                 <h1>Ziņa</h1>
-                                <PostForm  closeModal={closeModal}  reload={doReload}/>
+                                <PostForm  closeModal={closeModal}  reload={doReload} formasDati={editFormData} editFormId={formId} />
                             </div>
                         </div>
                    ):""
