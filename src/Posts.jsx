@@ -21,8 +21,8 @@ function Posts() {
     const [visiblePostDiv, setvisiblePostDiv] = useState(false);
 
     const [reload, setReload] = useState(false);
-    const [editFormData, setEditFormData] = useState([]);
-    const [formId, setFormID] = useState();
+    const [editFormData, setEditFormData] = useState('');
+    const [formId, setFormID] = useState('');
 
 
 
@@ -38,6 +38,8 @@ function Posts() {
     }
 
        const createPost = ()=>{
+        setEditFormData('');
+         setFormID('');
         setvisiblePostDiv(true);
     }       
 
@@ -45,19 +47,22 @@ function Posts() {
     const openPost = (e)=>{
         let id = e.target.dataset.id;
         setFormID(id);
-        loadFormData(formId);
-
-        editFormData &&
-        setvisiblePostDiv(true);
-
+        loadFormData(id)
+        .then((data)=>{
+             setEditFormData(data);
+        }).then(()=>{
+              setvisiblePostDiv(true);
+        })
+        
     }
 
 
     const loadFormData = async (id)=>{
         let response = await fetch(`http://localhost:8888/web1_api/public/posts/${id}`);
         let data = await response.json();
-        setEditFormData(data);
+        return data;
     }
+
 
     useEffect(() => {
         loadPosts().then((data) => {
@@ -109,7 +114,11 @@ function Posts() {
                                     setvisiblePostDiv(false)
                                 }}>x</button>
                                 <h1>Ziņa</h1>
-                                <PostForm  closeModal={closeModal}  reload={doReload} formasDati={editFormData} editFormId={formId} />
+                               <PostForm  closeModal={closeModal}  reload={doReload} formasDati={editFormData} editFormId={formId} />
+                                    
+                                   
+                               
+
                             </div>
                         </div>
                    ):""

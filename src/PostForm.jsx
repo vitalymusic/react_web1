@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 
 export default function PostForm(props) {
   const [formData, setFormData] = useState({
-    post_title: '',
-    post_content: ''
+    post_title: props.formasDati[0] ? props.formasDati[0].post_title:"",
+    post_content: props.formasDati[0] ? props.formasDati[0].post_content:"",
   });
+
+// console.log(props);
 
   
 
@@ -15,6 +17,8 @@ export default function PostForm(props) {
       [e.target.name]: e.target.value 
     });
   };
+
+
   const savePosts = async ()=>{
       let postFormData = new FormData();
 
@@ -22,7 +26,25 @@ export default function PostForm(props) {
       postFormData.append("post_content",formData.post_content);
 
 
-     let response = await fetch('http://localhost:8888/web1_api/public//posts/create',{
+     let response = await fetch('http://localhost:8888/web1_api/public/posts/create',{
+        method: 'POST',
+        body: postFormData
+      });
+        let data = await response.json();
+        props.closeModal();
+        props.reload();
+  }
+
+  const updatePosts = async ()=>{
+
+
+    let postFormData = new FormData();
+
+      postFormData.append("post_title",formData.post_title);
+      postFormData.append("post_content",formData.post_content);
+
+
+     let response = await fetch(`http://localhost:8888/web1_api/public/posts/update/${props.editFormId}`,{
         method: 'POST',
         body: postFormData
       });
@@ -37,13 +59,23 @@ export default function PostForm(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData); // Šeit var pievienot savu apstrādes loģiku
-    savePosts();
+    console.log(props); // Šeit var pievienot savu apstrādes loģiku
+   // return;
+    if(props.formasDati == ''){
+      savePosts();
+    }else{
+      updatePosts();
+    }
+    
+
+
 
 
   };
 
   return (
+    <>
+    
     <form onSubmit={handleSubmit} className="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow-md space-y-6">
       <div>
         <label htmlFor="post_title" className="block text-lg font-medium text-gray-700">
@@ -82,5 +114,6 @@ export default function PostForm(props) {
         Publicēt
       </button>
     </form>
+    </>
   );
 }
