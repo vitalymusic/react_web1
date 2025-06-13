@@ -56,6 +56,26 @@ function Posts() {
         
     }
 
+    const handleDeletePost = (e)=>{
+        const confirmed = window.confirm("Tiešām izdzēst?");
+        if(confirmed){
+            let id = e.target.dataset.id;
+            deletePost(id).then((data)=>{
+                console.log(data);
+                doReload();
+            })
+        }
+
+    }
+
+    const deletePost = async (id)=>{
+        let response = await fetch(`http://localhost:8888/web1_api/public/posts/delete/${id}`,{
+        method: 'DELETE',
+         });
+        let data = await response.json();
+        return data;
+    }
+
 
     const loadFormData = async (id)=>{
         let response = await fetch(`http://localhost:8888/web1_api/public/posts/${id}`);
@@ -87,8 +107,9 @@ function Posts() {
                 <table className='border-collapse border border-slate-400'>
                     <thead>
                         <tr>
-                            <th>Post</th>
-                            <th>View post</th>
+                            <th>Ziņas</th>
+                            <th>Saturs</th>
+                            <th>Darbības</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,8 +117,10 @@ function Posts() {
                         return (
                             <tr key={i}>
                                 <td>{post.post_title}</td>
+                                <td>{post.post_content}</td>
                                 <td>
-                                    <button data-id={post.id} onClick={openPost}>Skatīt postu</button>
+                                    <button data-id={post.id} onClick={openPost}>Skatīt</button>
+                                    <button data-id={post.id} onClick={handleDeletePost}>Dzēst </button>
                                 </td>
                             </tr>)
                         })
